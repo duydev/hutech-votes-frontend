@@ -7,7 +7,7 @@ const arr = [
   { minute: 31, fees: 0 }
 ];
 
-function calcFine(time) {
+export function calcFine(time) {
   const startOfWorkDay = moment('09:00', 'HH:mm');
   const currentTime = moment(time, 'HH:mm');
 
@@ -36,4 +36,51 @@ function calcFine(time) {
   return totalFees;
 }
 
-const fees = calcFine('09:30');
+function timeConvert(n) {
+  var num = n;
+  var hours = num / 60;
+  var rhours = Math.floor(hours);
+  var minutes = (hours - rhours) * 60;
+  var rminutes = Math.round(minutes);
+
+  return { rhours, rminutes };
+}
+
+export function calcLeaveFormTime(time) {
+  const startOfWorkDay = moment('08:30', 'HH:mm');
+  const currentTime = moment(time, 'HH:mm');
+
+  const diffInMinutes = moment
+    .duration(currentTime.diff(startOfWorkDay))
+    .asMinutes();
+
+  return timeConvert(diffInMinutes);
+}
+
+export function getResultMessage(time) {
+  let message;
+
+  const fine = calcFine(time);
+
+  if (fine === 0) {
+    message = `Bạn không cần phải đóng tiền phạt.`;
+  } else if (fine > 0) {
+    message = `Số tiền phạt bạn cần đóng là ${Intl.NumberFormat('en-US').format(
+      fine
+    )} VNĐ.`;
+  } else {
+    const { rhours, rminutes } = calcLeaveFormTime(time);
+
+    const timeArr = [];
+
+    if (rhours) timeArr.push(`${rhours} giờ`);
+    timeArr.push(`${rminutes} phút`);
+
+    message = `Bạn vui lòng viết leave form cho ${timeArr.join(' ')}.`;
+  }
+
+  return {
+    success: fine === 0,
+    message
+  };
+}
