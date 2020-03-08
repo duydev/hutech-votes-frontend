@@ -1,12 +1,12 @@
 export default theme => ({
   root: {
-    paddingTop: theme.spacing(3)
+    paddingTop: 24 // theme.spacing(3)
   },
   paper: {
-    padding: theme.spacing(2)
+    padding: 16 // theme.spacing(2)
   },
   form: {
-    padding: theme.spacing(2),
+    padding: 16, // theme.spacing(2),
     paddingBottom: 0
   },
   textField: {
@@ -15,7 +15,7 @@ export default theme => ({
   footer: {
     display: 'flex',
     justifyContent: 'center',
-    marginTop: theme.spacing(2)
+    marginTop: 16 // theme.spacing(2)
   },
   footerLink: {
     paddingLeft: '4px',
