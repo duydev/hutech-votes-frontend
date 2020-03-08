@@ -65,7 +65,7 @@ class HomePage extends React.Component {
 
     const { time } = this.state;
 
-    logEvent(`Tính Tiền Phạt Đi Trễ`, 'Submit Form', time);
+    logEvent(`Tính Tiền Phạt Đi Trễ`, 'Submit Form');
 
     if (!time) return;
 
