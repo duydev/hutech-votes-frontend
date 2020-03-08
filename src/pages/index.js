@@ -83,6 +83,13 @@ class HomePage extends React.Component {
               </Grid>
             </form>
           </Paper>
+          <Typography className={classes.footer} variant="inherit">
+            Made with ❤️ by
+            <a className={classes.footerLink} href="https://duydev.me">
+              Trần Nhật Duy
+            </a>
+            .
+          </Typography>
         </Grid>
       </Grid>
     );
