@@ -9,7 +9,7 @@ import {
 import { Alert } from '@material-ui/lab';
 
 import { getResultMessage } from '../utils';
-import { initGA, logPageView } from '../utils/analytics';
+import { initGA, logPageView, logEvent } from '../utils/analytics';
 
 const styles = theme => ({
   root: {
@@ -64,6 +64,8 @@ class HomePage extends React.Component {
     e.preventDefault();
 
     const { time } = this.state;
+
+    logEvent(`Tính Tiền Phạt Đi Trễ`, 'Submit Form', time);
 
     if (!time) return;
 
