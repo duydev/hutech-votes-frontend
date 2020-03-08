@@ -9,6 +9,7 @@ import {
 import { Alert } from '@material-ui/lab';
 
 import { getResultMessage } from '../utils';
+import { initGA, logPageView } from '../utils/analytics';
 
 const styles = theme => ({
   root: {
@@ -43,6 +44,15 @@ class HomePage extends React.Component {
     success: false,
     message: ''
   };
+
+  componentDidMount() {
+    if (!window.GA_INITIALIZED) {
+      initGA();
+      window.GA_INITIALIZED = true;
+    }
+
+    logPageView();
+  }
 
   handleChangeTime = e => {
     const value = e.target.value;
