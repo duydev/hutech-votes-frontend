@@ -80,7 +80,7 @@ class HomePage extends React.Component {
                 <Grid item xs={12}>
                   <TextField
                     type="time"
-                    label="Alarm clock"
+                    label="Thời gian bạn đến công ty"
                     className={classes.textField}
                     InputLabelProps={{
                       shrink: true
