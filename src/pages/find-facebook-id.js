@@ -124,7 +124,12 @@ class FindFacebookIdPage extends React.Component {
                     />
                   </Grid>
                   <Grid item xs={12} container justify="center">
-                    <Button type="submit" variant="contained" color="primary">
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      color="primary"
+                      disabled={!facebookId}
+                    >
                       Find
                     </Button>
                   </Grid>
