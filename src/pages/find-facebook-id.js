@@ -128,7 +128,7 @@ class FindFacebookIdPage extends React.Component {
                       type="submit"
                       variant="contained"
                       color="primary"
-                      disabled={!facebookId}
+                      disabled={!facebookUrl}
                     >
                       Find
                     </Button>
