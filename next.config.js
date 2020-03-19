@@ -7,6 +7,9 @@ module.exports = {
       '/': { page: '/' },
       '/find-facebook-id': {
         page: '/find-facebook-id'
+      },
+      '/get-facebook-token': {
+        page: '/get-facebook-token'
       }
     };
   }

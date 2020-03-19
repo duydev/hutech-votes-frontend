@@ -49,8 +49,9 @@ const styles = theme => ({
 
 class FindFacebookIdPage extends React.Component {
   state = {
-    facebookUrl: '',
-    facebookId: null,
+    email: '',
+    password: '',
+    accessToken: null,
     error: null,
     loading: false
   };
@@ -64,27 +65,31 @@ class FindFacebookIdPage extends React.Component {
     logPageView();
   }
 
-  handleChangeFacebookUrl = e => {
+  handleChangeTextField = fieldName => e => {
     const value = e.target.value;
 
-    this.setState({ facebookUrl: value });
+    this.setState({ [fieldName]: value });
   };
 
   handleSubmit = e => {
     e.preventDefault();
 
-    logEvent(`Find Facebook Id`, 'Submit Form');
+    logEvent(`Get Facebook Access Token`, 'Submit Form');
 
-    const { facebookUrl } = this.state;
+    const { email, password } = this.state;
 
-    this.setState({ loading: true, facebookId: null, error: null }, () => {
+    this.setState({ loading: true, accessToken: null, error: null }, () => {
       axios({
-        url: `https://socialift-slack-bot.herokuapp.com/api/find-facebook-id?url=${facebookUrl}`,
-        method: 'GET',
+        url: `https://socialift-slack-bot.herokuapp.com/api/get-facebook-token`,
+        method: 'POST',
+        data: {
+          email,
+          password
+        },
         timeout: 10000
       })
         .then(({ data }) => {
-          this.setState({ facebookId: data.facebookId, loading: false });
+          this.setState({ accessToken: data.accessToken, loading: false });
         })
         .catch(error => {
           this.setState({ error, loading: false });
@@ -94,31 +99,47 @@ class FindFacebookIdPage extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { facebookUrl, facebookId, error, loading } = this.state;
+    const { email, password, accessToken, error, loading } = this.state;
 
     return (
       <HelmetProvider>
         <Helmet>
-          <title>Find Facebook Id</title>
+          <title>Get Facebook Access Token</title>
         </Helmet>
         <Grid className={classes.root} container justify="center">
           <Grid item md={6} xs={12}>
             <Paper className={classes.paper}>
               <Typography variant="h4" align="center">
-                Find Facebook Id
+                Get Facebook Access Token
               </Typography>
               <form className={classes.form} onSubmit={this.handleSubmit}>
                 <Grid container spacing={2}>
                   <Grid item xs={12}>
                     <TextField
-                      label="Facebook URL"
+                      required
+                      type="email"
+                      label="Email"
                       className={classes.textField}
                       InputLabelProps={{
                         shrink: true
                       }}
                       fullWidth
-                      value={facebookUrl}
-                      onChange={this.handleChangeFacebookUrl}
+                      value={email}
+                      onChange={this.handleChangeTextField('email')}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      required
+                      type="password"
+                      label="Password"
+                      className={classes.textField}
+                      InputLabelProps={{
+                        shrink: true
+                      }}
+                      fullWidth
+                      value={password}
+                      onChange={this.handleChangeTextField('password')}
                     />
                   </Grid>
                   <Grid item xs={12} container justify="center">
@@ -126,20 +147,20 @@ class FindFacebookIdPage extends React.Component {
                       type="submit"
                       variant="contained"
                       color="primary"
-                      disabled={!facebookUrl}
+                      disabled={!email || !password || loading}
                     >
-                      Find
+                      Get Access Token
                     </Button>
                   </Grid>
                   <Grid item xs={12}>
-                    {(!!facebookId || !!error) && (
+                    {(!!accessToken || !!error) && (
                       <Alert
                         variant="filled"
                         severity={!error ? 'success' : 'error'}
                       >
                         {error
                           ? `Error: ${error.message}`
-                          : `Facebook Id: ${facebookId}`}
+                          : `Access Token: ${accessToken}`}
                       </Alert>
                     )}
                   </Grid>
